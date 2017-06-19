@@ -40,6 +40,8 @@ public class StoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_story);
 
+        lvStory = (ListView)findViewById(R.id.list)  ;
+
         detailArrayList = new ArrayList<>();
 
         intent = getIntent();
