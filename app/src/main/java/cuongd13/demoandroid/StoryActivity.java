@@ -87,7 +87,7 @@ public class StoryActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Episodes", link);
+                params.put("Episodes", link );
                 return params;
             }
 
@@ -142,8 +142,6 @@ public class StoryActivity extends AppCompatActivity {
                 bundle.putString("Href", detailArrayList.get(position).getHref());
                 intent.putExtra("dulieu", bundle);
                 startActivity(intent);
-
-                //Toast.makeText(StoryActivity.this , "hell" , Toast.LENGTH_LONG).show();
             }
         });
     }

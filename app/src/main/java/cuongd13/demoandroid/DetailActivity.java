@@ -46,8 +46,6 @@ public class DetailActivity extends Activity {
         RequestQueue queue = Volley.newRequestQueue(this);
         url = "http://acecinema.net/php/animewatch_new.php";
 
-        // link = "https://www2.animetv.to/watch/-maria-sama-ga-miteru-haru-2nd-episode-13.html";
-
         StringRequest sr = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -98,7 +96,6 @@ public class DetailActivity extends Activity {
     public void Video(){
 
         Uri uri=Uri.parse(gstream);
-
         videoView.setVideoURI(uri);
         videoView.start();
         MediaController mediaController = new MediaController(DetailActivity.this);
