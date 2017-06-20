@@ -36,15 +36,15 @@ public class StoryActivity extends AppCompatActivity {
     private Bundle bundle1;
     private Intent intent;
     ArrayList<Detail> detailArrayList;
-    StoryAdapter storyAdapter ;
-    Database database ;
+    StoryAdapter storyAdapter;
+    Database database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_story);
 
-        lvStory = (ListView)findViewById(R.id.list)  ;
+        lvStory = (ListView) findViewById(R.id.list);
 
         detailArrayList = new ArrayList<>();
 
@@ -76,7 +76,6 @@ public class StoryActivity extends AppCompatActivity {
         StringRequest sr = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                //            Toast.makeText(StoryActivity.this, response.toString(), Toast.LENGTH_LONG).show();
                 CustomJson(response.toString());
             }
         }, new Response.ErrorListener() {
@@ -89,7 +88,6 @@ public class StoryActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Episodes", link);
-
                 return params;
             }
 
@@ -127,13 +125,8 @@ public class StoryActivity extends AppCompatActivity {
         storyAdapter = new StoryAdapter(StoryActivity.this, R.layout.detail_row, detailArrayList);
         storyAdapter.notifyDataSetChanged();
         lvStory.setAdapter(storyAdapter);
-        Onclick(lvStory);
 
-
-    }
-
-    public void Onclick(ListView v) {
-        v.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lvStory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(StoryActivity.this, DetailActivity.class);
@@ -144,8 +137,18 @@ public class StoryActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
     }
 
+//    public void Onclick(ListView v) {
+//        v.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//            }
+//        });
+//    }
 
 
 //    public void Sqlite(){
