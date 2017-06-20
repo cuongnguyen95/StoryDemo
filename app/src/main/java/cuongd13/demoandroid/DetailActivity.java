@@ -1,9 +1,9 @@
 package cuongd13.demoandroid;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -22,7 +22,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends Activity {
 
     Intent intent ;
     Bundle bundle ;
@@ -52,7 +52,7 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 // Toast.makeText(DetailActivity.this , response.toString() , Toast.LENGTH_LONG).show();
-                 CustomJson(response.toString());
+                CustomJson(response.toString());
             }
         }, new Response.ErrorListener() {
             @Override
@@ -83,11 +83,11 @@ public class DetailActivity extends AppCompatActivity {
         try {
             JSONObject jsonObject = new JSONObject(s);
 
-             gstream = jsonObject.getString("gstream").replace("\\", "");
-             mp4upload = jsonObject.getString("mp4upload").replace("\\", "");
-             openload = jsonObject.getString("openload").replace("\\", "");
+            gstream = jsonObject.getString("gstream").replace("\\", "");
+            mp4upload = jsonObject.getString("mp4upload").replace("\\", "");
+            openload = jsonObject.getString("openload").replace("\\", "");
 
-             Video();
+            Video();
 
         } catch (JSONException e) {
             e.printStackTrace();
