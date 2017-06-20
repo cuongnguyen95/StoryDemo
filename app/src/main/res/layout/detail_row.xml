@@ -14,9 +14,14 @@
         android:text="Ten bai"
         android:padding="10dp"/>
 
-    <Button
+    <TextView
         android:id="@+id/xemthem"
-        android:text="Xem thêm"
+        android:text="XEM THÊM"
+        android:gravity="center"
+        android:background="#6565e2"
+        android:textColor="#ffffff"
+        android:padding="10dp"
+        android:layout_margin="10dp"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="3"

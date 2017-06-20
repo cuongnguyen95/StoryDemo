@@ -111,7 +111,8 @@ public class StoryActivity extends AppCompatActivity {
                     JSONObject detailObject = episodes.getJSONObject(i);
                     Detail detail = new Detail();
                     detail.setTitle(detailObject.getString("title"));
-                    detail.setHref(detailObject.getString("href"));
+                    String href = detailObject.getString("href") ;
+                    detail.setHref(href.replace("\\", ""));
                     detailArrayList.add(detail);
 
                 } catch (JSONException e) {
@@ -126,7 +127,13 @@ public class StoryActivity extends AppCompatActivity {
         storyAdapter.notifyDataSetChanged();
         lvStory.setAdapter(storyAdapter);
 
-        lvStory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        Onclick(lvStory);
+
+
+    }
+
+    public void Onclick(ListView v) {
+        v.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(StoryActivity.this, DetailActivity.class);
@@ -135,20 +142,11 @@ public class StoryActivity extends AppCompatActivity {
                 bundle.putString("Href", detailArrayList.get(position).getHref());
                 intent.putExtra("dulieu", bundle);
                 startActivity(intent);
+
+                //Toast.makeText(StoryActivity.this , "hell" , Toast.LENGTH_LONG).show();
             }
         });
-
-
     }
-
-//    public void Onclick(ListView v) {
-//        v.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
-//            }
-//        });
-//    }
 
 
 //    public void Sqlite(){
