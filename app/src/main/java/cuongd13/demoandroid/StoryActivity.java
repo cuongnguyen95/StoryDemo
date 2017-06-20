@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cuongd13.demoandroid.Adapter.StoryAdapter;
+import cuongd13.demoandroid.Sqlite.Database;
 import cuongd13.demoandroid.model.Detail;
 
 public class StoryActivity extends AppCompatActivity {
@@ -34,6 +35,7 @@ public class StoryActivity extends AppCompatActivity {
     private Intent intent;
     ArrayList<Detail> detailArrayList;
     StoryAdapter storyAdapter ;
+    Database database ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,4 +127,13 @@ public class StoryActivity extends AppCompatActivity {
         lvStory.setAdapter(storyAdapter);
 
     }
+
+//    public void Sqlite(){
+//        database = new Database(this , "truyen.sqlite" , null , 1);
+//        database.QueryData("CREATE TABLE IF NOT EXISTS Truyen(Id INTEGER PRIMARY KEY AUTOINCREMENT , Title VARCHAR(200) ,  ");
+//        // insert data
+//        database.QueryData("INSERT INTO Truyen VALUES(null , '123')");
+//
+//    }
+
 }
