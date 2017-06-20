@@ -3,6 +3,8 @@ package cuongd13.demoandroid;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -125,8 +127,26 @@ public class StoryActivity extends AppCompatActivity {
         storyAdapter = new StoryAdapter(StoryActivity.this, R.layout.detail_row, detailArrayList);
         storyAdapter.notifyDataSetChanged();
         lvStory.setAdapter(storyAdapter);
+        Onclick(lvStory);
+
 
     }
+
+    public void Onclick(ListView v) {
+        v.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(StoryActivity.this, DetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("Title", detailArrayList.get(position).getTitle());
+                bundle.putString("Href", detailArrayList.get(position).getHref());
+                intent.putExtra("dulieu", bundle);
+                startActivity(intent);
+            }
+        });
+    }
+
+
 
 //    public void Sqlite(){
 //        database = new Database(this , "truyen.sqlite" , null , 1);
