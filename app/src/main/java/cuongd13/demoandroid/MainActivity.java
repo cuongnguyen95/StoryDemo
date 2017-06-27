@@ -1,6 +1,7 @@
 package cuongd13.demoandroid;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -25,7 +26,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import cuongd13.demoandroid.Adapter.HomeAdapter;
+import cuongd13.demoandroid.Adapter.StoryAdapter;
 import cuongd13.demoandroid.Adapter.UpdateAdapter;
+import cuongd13.demoandroid.Sqlite.Database;
+import cuongd13.demoandroid.model.Detail;
 import cuongd13.demoandroid.model.Home;
 import cuongd13.demoandroid.model.Update;
 
@@ -33,8 +37,11 @@ public class MainActivity extends AppCompatActivity {
     GridView gvhome;
     ArrayList<Home> arrayList1;
     ArrayList<Update> arrayList2;
+    ArrayList<Detail> detailArrayList;
     HomeAdapter homeAdapter;
     UpdateAdapter updateAdapter;
+    Database database ;
+    StoryAdapter storyAdapter;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -109,7 +116,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void nav3() {
+        detailArrayList = new ArrayList<>();
+        database = new Database(this , "truyen.sqlite" , null , 1);
+        database.QueryData("CREATE TABLE IF NOT EXISTS Truyen(Id INTEGER PRIMARY KEY AUTOINCREMENT , Title VARCHAR(200) , Href VARCHAR(200) )");
+        Cursor data = database.getData("SELECT * FROM Truyen");
+        while (data.moveToNext()){
+            String title = data.getString(1);
+            String href = data.getString(2);
+            // Toast.makeText(MainActivity.this , title , Toast.LENGTH_LONG).show();
+            // truyen vao 1 mang
+            Detail detail = new Detail();
+            detail.setTitle(title);
+            detail.setHref(href);
+            detailArrayList.add(detail);
 
+        }
+
+        storyAdapter = new StoryAdapter(MainActivity.this, R.layout.detail_row, detailArrayList);
+        storyAdapter.notifyDataSetChanged();
+        gvhome.setNumColumns(1);
+        gvhome.setAdapter(storyAdapter);
+        Onclick3(gvhome);
     }
 
     public void ShowJson1(JSONArray response) {
@@ -138,6 +165,7 @@ public class MainActivity extends AppCompatActivity {
 
         homeAdapter = new HomeAdapter(MainActivity.this, R.layout.home_row, arrayList1);
         homeAdapter.notifyDataSetChanged();
+        gvhome.setNumColumns(3);
         gvhome.setAdapter(homeAdapter);
         Onclick1(gvhome);
     }
@@ -169,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
 
         updateAdapter = new UpdateAdapter(MainActivity.this, R.layout.home_row, arrayList2);
         updateAdapter.notifyDataSetChanged();
+        gvhome.setNumColumns(3);
         gvhome.setAdapter(updateAdapter);
         Onclick2(gvhome);
     }
@@ -207,5 +236,20 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void Onclick3(GridView v) {
+        v.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("Title", detailArrayList.get(position).getTitle());
+                bundle.putString("Href", detailArrayList.get(position).getHref());
+                intent.putExtra("dulieu", bundle);
+                startActivity(intent);
+
+            }
+        });
+    }
 
 }

@@ -147,12 +147,11 @@ public class StoryActivity extends AppCompatActivity {
     }
 
 
-//    public void Sqlite(){
-//        database = new Database(this , "truyen.sqlite" , null , 1);
-//        database.QueryData("CREATE TABLE IF NOT EXISTS Truyen(Id INTEGER PRIMARY KEY AUTOINCREMENT , Title VARCHAR(200) ,  ");
-//        // insert data
-//        database.QueryData("INSERT INTO Truyen VALUES(null , '123')");
-//
-//    }
+    public void Sqlite(String title , String href){
+        database = new Database(this , "truyen.sqlite" , null , 1);
+        database.QueryData("CREATE TABLE IF NOT EXISTS Truyen(Id INTEGER PRIMARY KEY AUTOINCREMENT , Title VARCHAR(200) , Href VARCHAR(200) ");
+        // insert data
+
+    }
 
 }
