@@ -1,7 +1,6 @@
 package cuongd13.demoandroid;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -56,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                     nav2();
                     return true;
                 case R.id.navigation_notifications:
-                    nav3();
+//                    nav3();
                     return true;
             }
             return false;
@@ -115,29 +114,29 @@ public class MainActivity extends AppCompatActivity {
         queue.add(jsonArrayRequest);
     }
 
-    public void nav3() {
-        detailArrayList = new ArrayList<>();
-        database = new Database(this , "truyen.sqlite" , null , 1);
-        database.QueryData("CREATE TABLE IF NOT EXISTS Truyen(Id INTEGER PRIMARY KEY AUTOINCREMENT , Title VARCHAR(200) , Href VARCHAR(200) )");
-        Cursor data = database.getData("SELECT * FROM Truyen");
-        while (data.moveToNext()){
-            String title = data.getString(1);
-            String href = data.getString(2);
-            // Toast.makeText(MainActivity.this , title , Toast.LENGTH_LONG).show();
-            // truyen vao 1 mang
-            Detail detail = new Detail();
-            detail.setTitle(title);
-            detail.setHref(href);
-            detailArrayList.add(detail);
-
-        }
-
-        storyAdapter = new StoryAdapter(MainActivity.this, R.layout.detail_row, detailArrayList);
-        storyAdapter.notifyDataSetChanged();
-        gvhome.setNumColumns(1);
-        gvhome.setAdapter(storyAdapter);
-        Onclick3(gvhome);
-    }
+//    public void nav3() {
+//        detailArrayList = new ArrayList<>();
+//        database = new Database(this , "truyen.sqlite" , null , 1);
+//        database.QueryData("CREATE TABLE IF NOT EXISTS Truyen(Id INTEGER PRIMARY KEY AUTOINCREMENT , Title VARCHAR(200) , Href VARCHAR(200) )");
+//        Cursor data = database.getData("SELECT * FROM Truyen");
+//        while (data.moveToNext()){
+//            String title = data.getString(1);
+//            String href = data.getString(2);
+//            // Toast.makeText(MainActivity.this , title , Toast.LENGTH_LONG).show();
+//            // truyen vao 1 mang
+//            Detail detail = new Detail();
+//            detail.setTitle(title);
+//            detail.setHref(href);
+//            detailArrayList.add(detail);
+//
+//        }
+//
+//        storyAdapter = new StoryAdapter(MainActivity.this, R.layout.detail_row, detailArrayList);
+//        storyAdapter.notifyDataSetChanged();
+//        gvhome.setNumColumns(1);
+//        gvhome.setAdapter(storyAdapter);
+//        Onclick3(gvhome);
+//    }
 
     public void ShowJson1(JSONArray response) {
         if (response.length() == 0) {
