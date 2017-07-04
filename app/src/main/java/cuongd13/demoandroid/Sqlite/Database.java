@@ -7,6 +7,11 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import cuongd13.demoandroid.model.Detail;
+
 /**
  * Created by cuong pc on 6/20/2017.
  */
@@ -18,6 +23,8 @@ public class Database extends SQLiteOpenHelper {
     public static final String CONTACTS_COLUMN_ID = "id";
     public static final String CONTACTS_COLUMN_TITLE = "title";
     public static final String CONTACTS_COLUMN_HREF = "href";
+    private HashMap hp;
+    public  ArrayList<Detail> detailArrayList ;
 
     public  Database(Context context){
         super(context , DATABASE_NAME , null , 1);
@@ -72,18 +79,22 @@ public class Database extends SQLiteOpenHelper {
                 new String[] { Integer.toString(id) });
     }
 
-//    public ArrayList<String> getAllCotacts() {
-//        ArrayList<String> array_list = new ArrayList<String>();
-//
-//        //hp = new HashMap();
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        Cursor res =  db.rawQuery( "select * from contacts", null );
-//        res.moveToFirst();
-//
-//        while(res.isAfterLast() == false){
-//            array_list.add(res.getString(res.getColumnIndex(CONTACTS_COLUMN_NAME)));
-//            res.moveToNext();
-//        }
-//        return array_list;
-//    }
+    public ArrayList<Detail> getAllCotacts() {
+
+        detailArrayList = new ArrayList<>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery( "select * from history", null );
+        while (res.moveToNext()){
+            String title = res.getString(res.getColumnIndex("title"));
+            String href = res.getString(res.getColumnIndex("href"));
+            Detail detail = new Detail();
+            detail.setTitle(title);
+            detail.setHref(href);
+            detailArrayList.add(detail);
+
+        }
+        return detailArrayList;
+    }
+
 }
