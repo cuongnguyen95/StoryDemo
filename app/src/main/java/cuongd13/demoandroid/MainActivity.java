@@ -1,6 +1,9 @@
 package cuongd13.demoandroid;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -27,7 +30,8 @@ import java.util.ArrayList;
 import cuongd13.demoandroid.Adapter.HomeAdapter;
 import cuongd13.demoandroid.Adapter.StoryAdapter;
 import cuongd13.demoandroid.Adapter.UpdateAdapter;
-import cuongd13.demoandroid.Sqlite.Database;
+import cuongd13.demoandroid.DAO.Story;
+import cuongd13.demoandroid.Sqlite.Mysqlite;
 import cuongd13.demoandroid.model.Detail;
 import cuongd13.demoandroid.model.Home;
 import cuongd13.demoandroid.model.Update;
@@ -39,7 +43,8 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Detail> detailArrayList;
     HomeAdapter homeAdapter;
     UpdateAdapter updateAdapter;
-    Database database ;
+    Story story;
+    Mysqlite mysqlite;
     StoryAdapter storyAdapter;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -55,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                     nav2();
                     return true;
                 case R.id.navigation_notifications:
-//                    nav3();
+                    nav3();
                     return true;
             }
             return false;
@@ -114,29 +119,30 @@ public class MainActivity extends AppCompatActivity {
         queue.add(jsonArrayRequest);
     }
 
-//    public void nav3() {
-//        detailArrayList = new ArrayList<>();
-//        database = new Database(this , "truyen.sqlite" , null , 1);
-//        database.QueryData("CREATE TABLE IF NOT EXISTS Truyen(Id INTEGER PRIMARY KEY AUTOINCREMENT , Title VARCHAR(200) , Href VARCHAR(200) )");
-//        Cursor data = database.getData("SELECT * FROM Truyen");
-//        while (data.moveToNext()){
-//            String title = data.getString(1);
-//            String href = data.getString(2);
-//            // Toast.makeText(MainActivity.this , title , Toast.LENGTH_LONG).show();
-//            // truyen vao 1 mang
-//            Detail detail = new Detail();
-//            detail.setTitle(title);
-//            detail.setHref(href);
-//            detailArrayList.add(detail);
-//
-//        }
-//
-//        storyAdapter = new StoryAdapter(MainActivity.this, R.layout.detail_row, detailArrayList);
-//        storyAdapter.notifyDataSetChanged();
-//        gvhome.setNumColumns(1);
-//        gvhome.setAdapter(storyAdapter);
-//        Onclick3(gvhome);
-//    }
+    public void nav3() {
+        detailArrayList = new ArrayList<>();
+        story = new Story(MainActivity.this);
+        Cursor data = story.getAllData();
+        while (data.moveToNext()) {
+
+            int id = data.getInt(data.getColumnIndex(mysqlite.STORY_COLUMN_ID));
+            String title = data.getString(data.getColumnIndex(mysqlite.STORY_COLUMN_TITLE));
+            String href = data.getString(data.getColumnIndex(mysqlite.STORY_COLUMN_HREF));
+            Detail detail = new Detail();
+            detail.setId(id);
+            detail.setTitle(title);
+            detail.setHref(href);
+            detailArrayList.add(detail);
+
+        }
+
+        storyAdapter = new StoryAdapter(MainActivity.this, R.layout.detail_row, detailArrayList);
+        storyAdapter.notifyDataSetChanged();
+        gvhome.setNumColumns(1);
+        gvhome.setAdapter(storyAdapter);
+
+        Onclick3(gvhome);
+    }
 
     public void ShowJson1(JSONArray response) {
         if (response.length() == 0) {
@@ -249,6 +255,48 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        v.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
+                alertDialog.setMessage("Bạn có chắc chắc muốn xóa không?")
+                        .setIcon(R.drawable.ic_menu_camera)
+                        .setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                story = new Story(MainActivity.this);
+                                story.delete(detailArrayList.get(position).getId());
+                                storyAdapter.notifyDataSetChanged();
+
+                            }
+                        })
+                        .setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // User cancelled the dialog
+                            }
+                        });
+                alertDialog.show();
+
+                return false;
+            }
+        });
     }
 
+//    public void Onlong(GridView v) {
+//        v.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//                Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+//                Bundle bundle = new Bundle();
+//                bundle.putString("Title", detailArrayList.get(position).getTitle());
+//                bundle.putString("Href", detailArrayList.get(position).getHref());
+//                intent.putExtra("dulieu", bundle);
+//                startActivity(intent);
+//
+//            }
+//        });
+//
+//        v.set
+//    }
 }

@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cuongd13.demoandroid.Adapter.StoryAdapter;
-import cuongd13.demoandroid.Sqlite.Database;
+import cuongd13.demoandroid.DAO.Story;
 import cuongd13.demoandroid.model.Detail;
 
 public class StoryActivity extends AppCompatActivity {
@@ -37,7 +37,7 @@ public class StoryActivity extends AppCompatActivity {
     private Intent intent;
     ArrayList<Detail> detailArrayList;
     StoryAdapter storyAdapter;
-    Database database;
+    Story story;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +87,7 @@ public class StoryActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Episodes", link );
+                params.put("Episodes", link);
                 return params;
             }
 
@@ -111,7 +111,7 @@ public class StoryActivity extends AppCompatActivity {
                     JSONObject detailObject = episodes.getJSONObject(i);
                     Detail detail = new Detail();
                     detail.setTitle(detailObject.getString("title"));
-                    String href = detailObject.getString("href") ;
+                    String href = detailObject.getString("href");
                     detail.setHref(href.replace("\\", ""));
                     detailArrayList.add(detail);
 
@@ -128,14 +128,14 @@ public class StoryActivity extends AppCompatActivity {
         lvStory.setAdapter(storyAdapter);
 
         Onclick(lvStory);
-
-
     }
 
     public void Onclick(ListView v) {
         v.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                story = new Story(StoryActivity.this);
+                story.insert(detailArrayList.get(position).getTitle(), detailArrayList.get(position).getHref());
                 Intent intent = new Intent(StoryActivity.this, DetailActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("Title", detailArrayList.get(position).getTitle());
@@ -145,13 +145,5 @@ public class StoryActivity extends AppCompatActivity {
             }
         });
     }
-
-
-//    public void Sqlite(String title , String href){
-//        database = new Database(this , "truyen.sqlite" , null , 1);
-//        database.QueryData("CREATE TABLE IF NOT EXISTS Truyen(Id INTEGER PRIMARY KEY AUTOINCREMENT , Title VARCHAR(200) , Href VARCHAR(200) ");
-//        // insert data
-//
-//    }
 
 }

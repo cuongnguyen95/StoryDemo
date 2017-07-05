@@ -5,7 +5,16 @@ package cuongd13.demoandroid.model;
  */
 
 public class Detail {
+    private int id ;
     private String title , href ;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
