@@ -260,12 +260,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
-                alertDialog.setMessage("Bạn có chắc chắc muốn xóa không?")
+                alertDialog.setMessage("Bạn có chắc chắc muốn xóa không ? ")
                         .setIcon(R.drawable.ic_menu_camera)
                         .setPositiveButton("Có", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 story = new Story(MainActivity.this);
                                 story.delete(detailArrayList.get(position).getId());
+                                detailArrayList.remove(position);
                                 storyAdapter.notifyDataSetChanged();
 
                             }
